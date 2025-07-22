@@ -36,6 +36,7 @@ if __name__ == "__main__":
     mario = Mario()
     running = True
     image_index = 0  # Variable to hold the image index
+    jump_index = 0
     mario.load_images()
     while running:
         for event in pygame.event.get():
@@ -49,6 +50,9 @@ if __name__ == "__main__":
         if keys[pygame.K_RIGHT]:
             image_index -= 0.154  # Decrement index when right key is pressed
             mario.rect.x += 0.7  # Move left
+        if keys[pygame.K_UP]:
+            mario.image = mario.jumpimages[0]
+            jump_index += 0.1
 
         
         screen.fill((0,0,0))
