@@ -4,17 +4,23 @@ class Mario(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.specimages = []
+        self.jumpimages=[]
         self.load_images()
         self.current_image_index = 0
         self.image = self.specimages[self.current_image_index]
+
         self.rect = self.image.get_rect()
 
     def load_images(self):
         # Load images from the folder and store them in a list
         for i in range(1, 14):  # Assuming you have 12 Stickman images
-            img = pygame.image.load(f'Assets/images/Stickman/Stickman {i}.png')
+            img = pygame.image.load(f'Assets/images/Stickman/Stickman walk/Stickman {i}.png')
             img = pygame.transform.scale(img, (50, 100))  # Adjust size
             self.specimages.append(img)
+        for i in range (1,4):
+            img = pygame.image.load(f'Assets/images/Stickman/Jump/Jump {i}.png')
+            img = pygame.transform.scale(img, (50, 100))  # Adjust size
+            self.jumpimages.append(img)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -39,10 +45,10 @@ if __name__ == "__main__":
         keys = pygame.key.get_pressed()  # Get state of all keys
         if keys[pygame.K_LEFT]:
             image_index += 0.154 # Increment index when left key is pressed
-            mario.rect.x -= 1.23  # Move left
+            mario.rect.x -= 0.7  # Move left
         if keys[pygame.K_RIGHT]:
             image_index -= 0.154  # Decrement index when right key is pressed
-            mario.rect.x += 1.23  # Move left
+            mario.rect.x += 0.7  # Move left
 
         
         screen.fill((0,0,0))
