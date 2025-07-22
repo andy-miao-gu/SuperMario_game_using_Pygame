@@ -34,7 +34,9 @@ class Mario(pygame.sprite.Sprite):
     def update(self, image_index):
         if self.is_jumping:
             # Show jump image
-            self.jump_index = int((self.jump_index + 0.2) % len(self.jumpimages))
+            self.jump_index = self.jump_index + 0.04
+            if self.jump_index+1 >=len(self.jumpimages):
+                self.jump_index = 0
             self.image = self.jumpimages[int(self.jump_index)]
             self.velocity_y += self.gravity
             self.rect.y += self.velocity_y
