@@ -13,7 +13,7 @@ class Mario(pygame.sprite.Sprite):
         # Load images from the folder and store them in a list
         for i in range(1, 14):  # Assuming you have 12 Stickman images
             img = pygame.image.load(f'Assets/images/Stickman/Stickman {i}.png')
-            img = pygame.transform.scale(img, (100, 100))  # Adjust size
+            img = pygame.transform.scale(img, (50, 100))  # Adjust size
             self.specimages.append(img)
 
     def draw(self, screen):
@@ -38,12 +38,14 @@ if __name__ == "__main__":
 
         keys = pygame.key.get_pressed()  # Get state of all keys
         if keys[pygame.K_LEFT]:
-            image_index += 1 # Increment index when left key is pressed
-            mario.rect.x -= 3  # Move left
+            image_index += 0.154 # Increment index when left key is pressed
+            mario.rect.x -= 1.23  # Move left
         if keys[pygame.K_RIGHT]:
-            image_index += 1  # Decrement index when right key is pressed
-            mario.rect.x += 3  # Move left
+            image_index -= 0.154  # Decrement index when right key is pressed
+            mario.rect.x += 1.23  # Move left
 
-        mario.update(image_index)
+        
+        screen.fill((0,0,0))
+        mario.update(int(image_index))
         mario.draw(screen)
         pygame.display.update()
