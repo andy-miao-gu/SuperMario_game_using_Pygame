@@ -34,20 +34,20 @@ def main():
         if keys[pygame.K_LEFT]:
             image_index += 0.2
             mario.rect.x -= 3
-            if mario.is_jumping and face_direction == 1:  # Flip the jump images only while jumping
+            if mario.is_jumping and face_direction == -1:  # Flip the jump images only while jumping
                 # Flip the entire jump images list
                 mario.jumpimages = [pygame.transform.flip(img, True, False) for img in mario.jumpimages]
                 mario.image = mario.jumpimages[int(mario.jump_index)]  # Update image during jump
-            face_direction = -1
+            face_direction = 1
 
 
         if keys[pygame.K_RIGHT]:
             image_index += 0.2
             mario.rect.x += 3
-            if mario.is_jumping and face_direction == -1:  # If jumping, ensure not to flip the jump images
+            if mario.is_jumping and face_direction == 1:  # If jumping, ensure not to flip the jump images
                 mario.jumpimages = [pygame.transform.flip(img, True, False) for img in mario.jumpimages]
                 mario.image = mario.jumpimages[int(mario.jump_index)]
-            face_direction = 1
+            face_direction = -1
                 
 
         if keys[pygame.K_UP] and not mario.is_jumping:
