@@ -1,83 +1,56 @@
 import pygame
+from config import START_X, START_Y, JUMP_SPEED, GRAVITY
+from assets import AssetLoader
 
 class Mario(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.specimages = []
-        self.jumpimages = []
+        self.specimages = []  # Images for walking
+        self.jumpimages = []  # Images for jumping
         self.load_images()
         self.current_image_index = 0
         self.image = self.specimages[self.current_image_index]
         self.rect = self.image.get_rect()
-        self.rect.x = 100
-        self.rect.y = 600  # ground level
+        self.rect.x = START_X
+        self.rect.y = START_Y
 
         self.is_jumping = False
-        self.jump_speed = -10
-        self.gravity = 0.1
+        self.jump_speed = JUMP_SPEED
+        self.gravity = GRAVITY
         self.velocity_y = 0
         self.jump_index = 0
 
     def load_images(self):
-        for i in range(1, 14):
-            img = pygame.image.load(f'Assets/images/Stickman/Stickman walk/Stickman {i}.png')
-            img = pygame.transform.scale(img, (50, 100))
-            self.specimages.append(img)
-        for i in range(1, 4):
-            img = pygame.image.load(f'Assets/images/Stickman/Jump/Jump {i}.png')
-            img = pygame.transform.scale(img, (50, 100))
-            self.jumpimages.append(img)
+        """
+        Loads walking and jumping images.
+        """
+        self.specimages = AssetLoader.load_walk_images()
+        self.jumpimages = AssetLoader.load_jump_images()
 
     def draw(self, screen):
+        """
+        Draw Mario on the screen.
+        """
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
     def update(self, image_index):
+        """
+        Updates Mario's movement and animation.
+        """
         if self.is_jumping:
-            # Show jump image
-            self.jump_index = self.jump_index + 0.04
-            if self.jump_index+1 >=len(self.jumpimages):
+            # Jumping animation
+            self.jump_index += 0.04
+            if self.jump_index + 1 >= len(self.jumpimages):
                 self.jump_index = 0
             self.image = self.jumpimages[int(self.jump_index)]
             self.velocity_y += self.gravity
             self.rect.y += self.velocity_y
 
-            if self.rect.y >= 600:
-                self.rect.y = 600
+            if self.rect.y >= START_Y:
+                self.rect.y = START_Y
                 self.is_jumping = False
                 self.velocity_y = 0
         else:
             # Walking animation
-            self.current_image_index = image_index % len(self.specimages)
+            self.current_image_index = int(image_index) % len(self.specimages)
             self.image = self.specimages[self.current_image_index]
-
-if __name__ == "__main__":
-    pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
-    mario = Mario()
-    clock = pygame.time.Clock()
-
-    running = True
-    image_index = 0
-
-    while running:
-        clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            image_index += 0.2
-            mario.rect.x -= 3
-            mario.image=pygame.transform.flip(mario.image, True, False)
-        if keys[pygame.K_RIGHT]:
-            image_index += 0.2
-            mario.rect.x += 3
-        if keys[pygame.K_UP] and not mario.is_jumping:
-            mario.is_jumping = True
-            mario.velocity_y = mario.jump_speed
-
-        screen.fill((0, 0, 0))
-        mario.update(int(image_index))
-        mario.draw(screen)
-        pygame.display.update()
