@@ -14,7 +14,7 @@ class Mario(pygame.sprite.Sprite):
 
         self.is_jumping = False
         self.jump_speed = -10
-        self.gravity = 0.5
+        self.gravity = 0.1
         self.velocity_y = 0
         self.jump_index = 0
 
@@ -69,6 +69,7 @@ if __name__ == "__main__":
         if keys[pygame.K_LEFT]:
             image_index += 0.2
             mario.rect.x -= 3
+            mario.image=pygame.transform.flip(mario.image, True, False)
         if keys[pygame.K_RIGHT]:
             image_index += 0.2
             mario.rect.x += 3
