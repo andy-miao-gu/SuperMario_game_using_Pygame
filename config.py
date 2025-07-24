@@ -6,7 +6,7 @@ JUMP_IMAGES_PATH = 'Assets/images/Stickman/Jump/Jump '
 
 # Number of images for walking and jumping
 NUM_WALK_IMAGES = 13
-NUM_JUMP_IMAGES = 3
+NUM_JUMP_IMAGES = 2
 
 # Mario's starting position and physics
 START_X = 100
