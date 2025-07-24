@@ -38,10 +38,7 @@ class Mario(pygame.sprite.Sprite):
         Updates Mario's movement and animation.
         """
         if self.is_jumping:
-            # Jumping animation
-            self.jump_index += 0.04
-            if self.jump_index + 1 >= len(self.jumpimages):
-                self.jump_index = 0
+            # Jumping animation=
             self.image = self.jumpimages[int(self.jump_index)]
             self.velocity_y += self.gravity
             self.rect.y += self.velocity_y

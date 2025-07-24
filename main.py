@@ -1,7 +1,8 @@
 import pygame
 from mario import Mario
 from config import START_X, START_Y
-
+a = 0
+b=0
 def main():
     # Initialize pygame
     pygame.init()
@@ -20,7 +21,7 @@ def main():
     running = True
     image_index = 0
     face_direction = 'left'  # 1 for right, -1 for left
-
+    check = True
     while running:
         clock.tick(60)  # Limit frame rate to 60 FPS
 
@@ -58,16 +59,13 @@ def main():
         # Fill the screen with black before drawing
         screen.fill((0, 0, 0))
 
-        # Update and draw Mario
         a = mario.rect.y
         mario.update(image_index)
         b = mario.rect.y
-        if (a-b) > 0:
-            print(f"Y position changed from {a} to {b}")
+        if a > b:
+            mario.jump_index = 0
         else:
-            print(f"Y position remains the same: {b}")
-
-
+            mario.jump_index = 1
         mario.draw(screen)
 
         # Update display
