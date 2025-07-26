@@ -33,7 +33,7 @@ def main():
 
         # Check for keypresses
         if keys[pygame.K_LEFT]:
-            image_index += 0.2
+            image_index -= 0.2
             mario.rect.x -= 3
             if mario.is_jumping and face_direction == 'left':  # Flip the jump images only while jumping
                 # Flip the entire jump images list
@@ -42,13 +42,14 @@ def main():
             face_direction = 'right'
 
 
-        if keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT]:
             image_index += 0.2
             mario.rect.x += 3
             if mario.is_jumping and face_direction == 'right':  # If jumping, ensure not to flip the jump images
                 mario.jumpimages = [pygame.transform.flip(img, True, False) for img in mario.jumpimages]
                 mario.image = mario.jumpimages[1]
             face_direction = 'left'
+            
 
 
         if keys[pygame.K_UP] and not mario.is_jumping:
