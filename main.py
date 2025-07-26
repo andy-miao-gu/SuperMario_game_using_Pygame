@@ -6,9 +6,11 @@ b=0
 def main():
     # Initialize pygame
     pygame.init()
+    
 
     # Set up the screen dimensions and create the window
     screen = pygame.display.set_mode((1200, 800))
+    bg = pygame.image.load('Assets/images/bg.png')
     pygame.display.set_caption("Mario Game")
 
     # Create the Mario instance
@@ -58,7 +60,7 @@ def main():
             
 
         # Fill the screen with black before drawing
-        screen.fill((0, 0, 0))
+        screen.blit(bg,(0,0))
 
         a = mario.rect.y
         mario.update(image_index)
