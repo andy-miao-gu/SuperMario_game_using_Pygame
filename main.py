@@ -11,6 +11,7 @@ def main():
     # Set up the screen dimensions and create the window
     screen = pygame.display.set_mode((1200, 800))
     bg = pygame.image.load('Assets/images/bg.png')
+    bg = pygame.transform.scale(bg, (1200, 800))
     pygame.display.set_caption("Mario Game")
 
     # Create the Mario instance
@@ -18,6 +19,11 @@ def main():
 
     # Set up clock for controlling the frame rate
     clock = pygame.time.Clock()
+
+    # Background scrolling variables
+    camera_x = 0  # Camera offset for horizontal scrolling
+    scroll_margin_left = 400  # Distance from left edge before scrolling starts
+    scroll_margin_right = 800  # Distance from right edge before scrolling starts
 
     # Game loop
     running = True
@@ -36,7 +42,13 @@ def main():
         # Check for keypresses
         if keys[pygame.K_LEFT]:
             image_index -= 0.2
-            mario.rect.x -= 3
+            # Check if Mario should scroll the camera or move normally
+            if mario.rect.x > scroll_margin_left:
+                mario.rect.x -= 3
+            else:
+                # Scroll the background instead
+                camera_x += 3
+            
             if mario.is_jumping and face_direction == 'left':  # Flip the jump images only while jumping
                 # Flip the entire jump images list
                 mario.jumpimages = [pygame.transform.flip(img, True, False) for img in mario.jumpimages]
@@ -46,7 +58,13 @@ def main():
 
         elif keys[pygame.K_RIGHT]:
             image_index += 0.2
-            mario.rect.x += 3
+            # Check if Mario should scroll the camera or move normally
+            if mario.rect.x < scroll_margin_right:
+                mario.rect.x += 3
+            else:
+                # Scroll the background instead
+                camera_x -= 3
+            
             if mario.is_jumping and face_direction == 'right':  # If jumping, ensure not to flip the jump images
                 mario.jumpimages = [pygame.transform.flip(img, True, False) for img in mario.jumpimages]
                 mario.image = mario.jumpimages[1]
@@ -60,7 +78,11 @@ def main():
             
 
         # Fill the screen with black before drawing
-        screen.blit(bg,(0,0))
+        # Draw background with camera offset for scrolling effect
+        screen.blit(bg, (camera_x, 0))
+        # Draw a second background image to create seamless scrolling
+        screen.blit(bg, (camera_x + 1200, 0))
+        screen.blit(bg, (camera_x - 1200, 0))
 
         a = mario.rect.y
         mario.update(image_index)
