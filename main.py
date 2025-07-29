@@ -78,6 +78,7 @@ def main():
             
 
         # Fill the screen with black before drawing
+        camera_x %= 1200
         # Draw background with camera offset for scrolling effect
         screen.blit(bg, (camera_x, 0))
         # Draw a second background image to create seamless scrolling
