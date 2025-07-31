@@ -6,7 +6,7 @@ JUMP_IMAGES_PATH = 'Assets/images/Stickman/Jump/Jump '
 STANDING_IMAGES_PATH = 'Assets/images/Stickman/standing/Wave '
 
 # Number of images for walking and jumping
-NUM_WALK_IMAGES = 13
+NUM_WALK_IMAGES = 12
 NUM_JUMP_IMAGES = 2
 NUM_STANDING_IMAGES = 6  # All 7 wave images are now available
 
