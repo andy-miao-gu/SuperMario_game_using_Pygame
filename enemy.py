@@ -59,7 +59,7 @@ class EnemyManager:
     def __init__(self):
         self.enemies = pygame.sprite.Group()
         self.spawn_timer = 0
-        self.spawn_delay = 180  # Start with 3 seconds at 60 FPS
+        self.spawn_delay = 15  # Very fast spawning - every 0.25 seconds at 60 FPS
         self.level = 1
         self.enemies_defeated = 0
         self.time_survived = 0
@@ -80,23 +80,27 @@ class EnemyManager:
                 self.enemies.remove(enemy)
                 self.enemies_defeated += 1
                 
-        # Spawn new enemies
+        # Spawn new enemies - MASSIVE SPAWNING!
         self.spawn_timer += 1
         if self.spawn_timer >= self.spawn_delay:
-            # Sometimes spawn multiple enemies for more challenge
-            if random.random() < 0.3:  # 30% chance to spawn 2 enemies
-                self.spawn_enemy()
-                # Spawn second enemy at different height after short delay
-                if random.random() < 0.5:
-                    new_enemy = self.create_enemy_at_random_position()
-                    new_enemy.rect.x += 100  # Offset the second enemy
-                    self.enemies.add(new_enemy)
-            else:
-                self.spawn_enemy()
+            # Spawn MULTIPLE enemies every time!
+            num_enemies = random.randint(3, 8)  # Spawn 3-8 enemies at once
+            for i in range(num_enemies):
+                new_enemy = self.create_enemy_at_random_position()
+                new_enemy.rect.x += i * 50  # Offset each enemy
+                self.enemies.add(new_enemy)
+            
+            # Also spawn some enemies with random spacing
+            if random.random() < 0.7:  # 70% chance for extra wave
+                for i in range(random.randint(2, 5)):
+                    extra_enemy = self.create_enemy_at_random_position()
+                    extra_enemy.rect.x += random.randint(150, 400)  # Random spacing
+                    self.enemies.add(extra_enemy)
+            
             self.spawn_timer = 0
             
-        # Increase difficulty over time
-        if self.time_survived > 0 and self.time_survived % 600 == 0:  # Every 10 seconds
+        # Increase difficulty over time - MUCH MORE FREQUENT
+        if self.time_survived > 0 and self.time_survived % 180 == 0:  # Every 3 seconds!
             self.level_up()
             
     def spawn_enemy(self):
@@ -163,11 +167,11 @@ class EnemyManager:
         
     def level_up(self):
         """
-        Increase difficulty
+        Increase difficulty - MUCH MORE AGGRESSIVE
         """
         self.level += 1
-        if self.spawn_delay > 30:  # Don't make it too fast
-            self.spawn_delay -= 10  # Spawn enemies more frequently
+        if self.spawn_delay > 5:  # Much faster minimum spawn rate
+            self.spawn_delay -= 2  # Reduce spawn delay more aggressively
             
     def draw(self, screen):
         """
